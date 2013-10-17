@@ -109,7 +109,7 @@ void CaptureThread::selectTransport(const QString& name)
 
 	if(impl==NULL)
 	{
-//		cerr << "CaptureThread: ERROR: unknown transport '" << name << "'" << endl;
+		cerr << "CaptureThread: ERROR: unknown transport '" << name.toStdString() << "'" << endl;
 		throw QString("CaptureThread: unknown transport '")+name+"'";
 	}
 
@@ -133,8 +133,9 @@ list<QString> CaptureThread::getTransports() const
 void CaptureThread::listTransports()
 {
 	cerr << "CaptureThread: INFO: Built in transports" << endl;
-//	for(list<CaptureThreadImpl*>::iterator it=m_impls.begin(); it!=m_impls.end(); it++)
-//		cerr << "CaptureThread: INFO:	" << (*it)->m_name << "   " << (*it)->getStatus() << endl;
+	for(list<CaptureThreadImpl*>::iterator it=m_impls.begin(); it!=m_impls.end(); it++)
+		cerr << "CaptureThread: INFO:	" << (*it)->m_name.toStdString() << "   " << (*it)->getStatus().toStdString() << endl;
+//		cerr << "CaptureThread: INFO:   " << (*it)->m_name.toStdString() << "   " << (*it)->getStatus() << endl;
 }
 QString CaptureThread::getCurrentTransport() const
 {
@@ -368,7 +369,7 @@ bool CaptureThreadImplALSA::is_available()
 		try
 		{
 			int err = -1;
-			if((err=snd_pcm_open(&m_alsa_capture_handle, m_source.latin1(), SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK)) < 0)
+			if((err=snd_pcm_open(&m_alsa_capture_handle, m_source.toLatin1(), SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK)) < 0)
 			{
 				if(err==-19)	// TODO risks of changes for the error code
 					throw QString("invalid source '")+m_source+"'";
@@ -412,7 +413,7 @@ void CaptureThreadImplALSA::set_params()
 
 	if(m_source=="")
 		throw QString("ALSA: set the source first");
-	if((err=snd_pcm_open(&m_alsa_capture_handle, m_source.latin1(), SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK)) < 0)
+	if((err=snd_pcm_open(&m_alsa_capture_handle, m_source.toLatin1(), SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK)) < 0)
 	{
 		//					cerr << "err=" << err << ":" << snd_strerror(err) << endl;
 
@@ -460,7 +461,7 @@ void CaptureThreadImplALSA::set_params()
 		if((err=snd_pcm_hw_params_set_format(m_alsa_capture_handle, m_alsa_hw_params, m_format))<0)
 		{
 			QString err_msg = QString("ALSA: cannot set format (")+QString(snd_strerror(err))+")";
-			cerr << "CaptureThread: ERROR: " << err_msg << endl;
+			cerr << "CaptureThread: ERROR: " << err_msg.toStdString() << endl;
 		}
 	}
 
@@ -469,7 +470,7 @@ void CaptureThreadImplALSA::set_params()
 	if((err=snd_pcm_hw_params_set_channels_near(m_alsa_capture_handle, m_alsa_hw_params, &channel_count)) < 0)
 	{
 		QString err_msg = QString("ALSA: cannot set channel count (")+QString(snd_strerror(err))+")";
-		cerr << "CaptureThread: ERROR: " << err_msg << endl;
+		cerr << "CaptureThread: ERROR: " << err_msg.toStdString() << endl;
 	}
 
 	if(channel_count!=1)
@@ -537,7 +538,7 @@ void CaptureThreadImplALSA::setSamplingRate(int value)
 			}
 			catch(QString error)
 			{
-				cerr << "CaptureThread: ERROR: " << error << endl;
+				cerr << "CaptureThread: ERROR: " << error.toStdString() << endl;
 				m_capture_thread->emitError(error);
 			}
 
@@ -579,7 +580,7 @@ void CaptureThreadImplALSA::capture_loop()
 			while((ret_val = snd_pcm_prepare(m_alsa_capture_handle)) < 0)
 			{
 				m_capture_thread->msleep(1000);
-				cerr << QString("ALSA: cannot prepare audio interface (")+QString(snd_strerror(ret_val))+")" << endl;
+				cerr << QString("ALSA: cannot prepare audio interface (").toStdString()+QString(snd_strerror(ret_val)).toStdString()+")" << endl;
 //				throw QString("ALSA: cannot prepare audio interface (")+QString(snd_strerror(ret_val))+")";
 			}
 		}

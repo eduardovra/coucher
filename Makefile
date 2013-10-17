@@ -1,6 +1,6 @@
 CC=g++
-CFLAGS=-g -fPIC -DFANR_OUTPUT_MIDI #-DCAPTURE_JACK
-LDFLAGS=-lQt5Gui -lQt5Core -lasound
+CFLAGS=-g -fPIC -DFANR_OUTPUT_MIDI -DCAPTURE_JACK -DCAPTURE_ALSA
+LDFLAGS=-lQt5Gui -lQt5Core -ljack -lasound -lpthread
 INCLUDE=-Ilibs -I/usr/include/qt5
 SRCS=main.cpp ANR.cpp CaptureThread.cpp CaptureThread_moc.cpp
 LIBS=libs/Music/libMusic.a libs/CppAddons/libCppAddons.a
@@ -15,6 +15,8 @@ $(TARGET): $(OBJS) $(LIBS)
 
 $(OBJS): %.o: %.cpp %.dep Makefile
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+
+include *.dep
 
 $(DEPS): %.dep: %.cpp Makefile
 	$(CC) $(CFLAGS) $(INCLUDE) -MM $< > $@
