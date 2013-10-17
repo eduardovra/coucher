@@ -1,0 +1,4 @@
+coucher
+*.o
+*.dep
+*_moc.cpp
