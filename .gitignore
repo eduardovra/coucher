@@ -3,3 +3,7 @@ coucher
 *.o
 *.dep
 *_moc.cpp
+
+# eclipse
+.project
+.cproject
