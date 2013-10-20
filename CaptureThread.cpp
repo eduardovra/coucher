@@ -661,7 +661,7 @@ bool CaptureThreadImplJACK::is_available()
 	{
 		try
 		{
-			m_jack_client = jack_client_new((m_capture_thread->m_name+"_test").toLatin1());
+			m_jack_client = jack_client_open((m_capture_thread->m_name+"_test").toLatin1(), (jack_options_t) 0, NULL);
 			if(m_jack_client==NULL)
 				throw QString("unknown reason");
 		}
@@ -734,7 +734,7 @@ int CaptureThreadImplJACK::jackProcess(jack_nframes_t nframes)
 
 void CaptureThreadImplJACK::capture_init()
 {
-	m_jack_client = jack_client_new(m_capture_thread->m_name.toLatin1());
+	m_jack_client = jack_client_open(m_capture_thread->m_name.toLatin1(), (jack_options_t)0, NULL);
 	if(m_jack_client==NULL)
 		throw QString("JACK: cannot create client, JACK deamon is running ?");
 	jack_set_process_callback(m_jack_client, JackProcess, (void*)this);
