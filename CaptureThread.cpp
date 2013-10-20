@@ -714,6 +714,8 @@ int CaptureThreadImplJACK::jackProcess(jack_nframes_t nframes)
 {
 	if(m_capture_thread->m_pause)	return 0;
 
+	//cerr << "jackProcess" << endl;
+
 	jack_default_audio_sample_t* in = (jack_default_audio_sample_t*) jack_port_get_buffer(m_jack_port, nframes);
 
 	m_capture_thread->m_lock.lock();

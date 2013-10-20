@@ -94,7 +94,7 @@ void ANR::pause(bool toggled)
 
 void ANR::init()
 {
-	cerr << "ANR::init" << endl;
+//	cerr << "ANR::init" << endl;
 
 //	if(GetSamplingRate()<=0)	return;
 
@@ -117,7 +117,7 @@ void ANR::init()
 //	m_algo_current = m_algo_bubble;
 	m_transform_current = m_algo_multicorr;
 
-	cerr << "/ANR::init" << endl;
+//	cerr << "/ANR::init" << endl;
 }
 
 void ANR::recognize()
@@ -214,7 +214,7 @@ void ANR::noteStarted(int tag, int ht, double dt)
 			m_notes_history[ih].front()->addReconsStats(m_recognition_stats[i]);
 	}
 
-//	cout << "ANR::noteStarted " << ht << " " << tag << endl;
+	cout << "ANR::noteStarted " << ht << " " << tag << endl;
 }
 void ANR::noteFinished(int tag, int ht, double dt)
 {
@@ -237,7 +237,7 @@ void ANR::noteFinished(int tag, int ht, double dt)
 			cerr << "ANR::noteFinished try to finished an already finished note ?!? ("<<ht<<")"<<endl;
 	}
 
-//		cout << "ANR::noteFinished " << ht << " " << tag << endl;
+		cout << "ANR::noteFinished " << ht << " " << tag << endl;
 }
 void ANR::notePlayed(int ht, double duration, double dt)
 {
@@ -251,7 +251,7 @@ void ANR::notePlayed(int ht, double duration, double dt)
 		cout << h2n(ht, names, ton) << endl;
 	}
 #endif
-	//   	cout << "GLGraph::notePlayed " << ht << " duration=" << duration << " at time=" << t << endl;
+	cout << "GLGraph::notePlayed " << ht << " duration=" << duration << " at time=" << dt << endl;
 }
 
 ANR::~ANR()
