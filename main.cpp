@@ -1,15 +1,25 @@
 #include <iostream>
 
+#include <Music/Music.h>
 #include "ANR.h"
+#include "CustomMainForm.h"
 
 using namespace std;
 
 int main (int argc, char *argv[])
 {
-	cerr << "Vai" << endl;
+	QApplication app(argc, argv);
+	CustomMainForm win;
+
+	Music::SetSamplingRate(48000);
 
 	new ANR();
+	anr().init();
+	anr().m_capture_thread.autoDetectTransport();
+
 	anr().start();
 
-	return 0;
+	win.show();
+
+	return app.exec();
 }

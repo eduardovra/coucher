@@ -94,7 +94,7 @@ void ANR::pause(bool toggled)
 
 void ANR::init()
 {
-//	cerr << "ANR::init" << endl;
+	cerr << "ANR::init" << endl;
 
 //	if(GetSamplingRate()<=0)	return;
 
@@ -117,7 +117,7 @@ void ANR::init()
 //	m_algo_current = m_algo_bubble;
 	m_transform_current = m_algo_multicorr;
 
-//	cerr << "/ANR::init" << endl;
+	cerr << "/ANR::init" << endl;
 }
 
 void ANR::recognize()
@@ -125,7 +125,7 @@ void ANR::recognize()
 	m_refresh_time = m_refresh_time_timer.elapsed();
 	m_refresh_time_timer.start();
 
-//	cerr << "ANR::recognize " << m_refresh_time << ":" << m_nb_new_data << " (" << ((m_queue.empty())?0.0:m_queue[0]) << ")" << endl;
+	cerr << "ANR::recognize " << m_refresh_time << ":" << m_nb_new_data << " (" << ((m_queue.empty())?0.0:m_queue[0]) << ")" << endl;
 
 	vector<bool> playing(GetNbSemitones());
 	for(size_t i=0; i<playing.size(); i++)
@@ -133,10 +133,10 @@ void ANR::recognize()
 
 	m_algo_current->apply(m_queue);
 
-//	if(getCurrentAlgorithm()->hasNoteRecognized())
-//		cerr << m_algo_current->getFondamentalWaveLength() << " " << f2h(GetSamplingRate()/m_algo_current->getFondamentalWaveLength()) << endl;
+	if(getCurrentAlgorithm()->hasNoteRecognized())
+		cerr << m_algo_current->getFondamentalWaveLength() << " " << f2h(GetSamplingRate()/m_algo_current->getFondamentalWaveLength()) << endl;
 
-//	cerr << "hasNoteRecognized " << getCurrentAlgorithm()->hasNoteRecognized() << " (" << getCurrentAlgorithm()->getFondamentalNote() << ")" << endl;
+	cerr << "hasNoteRecognized " << getCurrentAlgorithm()->hasNoteRecognized() << " (" << getCurrentAlgorithm()->getFondamentalNote() << ")" << endl;
 
 	if(getCurrentAlgorithm()->hasNoteRecognized())
 		playing[int(getCurrentAlgorithm()->getFondamentalNote()-GetSemitoneMin())] = true;
@@ -169,7 +169,7 @@ void ANR::recognize()
 	while(!m_recognition_stats.empty() && current_time-m_recognition_stats.back().time > 1000)
 		m_recognition_stats.pop_back();
 
-//	cerr << "(" << m_quantizer.getMinStoredRecon() << ")" << endl;
+	cerr << "(" << m_quantizer.getMinStoredRecon() << ")" << endl;
 
 	double min_refresh=1000, max_refresh=0;
 	m_min_used_recon=1000000;
@@ -178,7 +178,7 @@ void ANR::recognize()
 	m_avg_refresh = 0;
 	for(size_t i=0; i<m_recognition_stats.size(); i++)
 	{
-//		cerr << "(" << m_recognition_stats[i].refresh << " " << m_recognition_stats[i].used_recon << ")" << endl;
+		cerr << "(" << m_recognition_stats[i].refresh << " " << m_recognition_stats[i].used_recon << ")" << endl;
 		min_refresh = min(min_refresh, m_recognition_stats[i].refresh);
 		max_refresh = max(max_refresh, m_recognition_stats[i].refresh);
 		m_avg_refresh += int(m_recognition_stats[i].refresh);

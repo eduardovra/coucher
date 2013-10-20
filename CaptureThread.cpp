@@ -74,7 +74,7 @@ void CaptureThread::autoDetectTransport()
 	{
 		m_current_impl = impl;
 
-//		cerr << "using " << m_current_impl->m_name << endl;
+		cerr << "using " << m_current_impl->m_name.toStdString() << endl;
 
 		if(m_current_impl->m_name!=old_name)
 			emit(transportChanged(m_current_impl->m_name));
@@ -275,7 +275,7 @@ CaptureThread::~CaptureThread()
 
 void CaptureThread::run()
 {
-	//	cerr << "CaptureThread: INFO: capture thread entered" << endl;
+	cerr << "CaptureThread: INFO: capture thread entered" << endl;
 
 	while(m_alive)
 	{
@@ -286,7 +286,7 @@ void CaptureThread::run()
 
 		try
 		{
-			//			cerr << "CaptureThread: INFO: capture thread running" << endl;
+			cerr << "CaptureThread: INFO: capture thread running" << endl;
 
 			m_current_impl->capture_init();
 
@@ -311,10 +311,10 @@ void CaptureThread::run()
 
 		m_in_run = false;
 
-		//		cerr << "CaptureThread: INFO: capture thread stop running" << endl;
+		cerr << "CaptureThread: INFO: capture thread stop running" << endl;
 	}
 
-	//	cerr << "CaptureThread: INFO: capture thread exited" << endl;
+	cerr << "CaptureThread: INFO: capture thread exited" << endl;
 }
 
 // -------------------------------- implementation ------------------------------
@@ -346,7 +346,7 @@ QString CaptureThreadImpl::getStatus()
 
 void alsa_error_handler(const char *file, int line, const char *function, int err, const char *fmt, ...)
 {
-	//	cerr << "alsa_error_handler: " << file << ":" << line << " " << function << " err=" << err << endl;
+	cerr << "alsa_error_handler: " << file << ":" << line << " " << function << " err=" << err << endl;
 }
 
 CaptureThreadImplALSA::CaptureThreadImplALSA(CaptureThread* capture_thread)
@@ -397,7 +397,7 @@ bool CaptureThreadImplALSA::is_available()
 
 	m_status = "available";
 
-	//	cerr << "CaptureThread: INFO: ALSA seems available" << endl;
+	cerr << "CaptureThread: INFO: ALSA seems available" << endl;
 
 	return true;
 }
