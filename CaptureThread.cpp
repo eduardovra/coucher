@@ -42,7 +42,9 @@ CaptureThread::CaptureThread(const QString& name)
 	m_pause = false;
 
 	m_name = name;
-
+#ifdef CAPTURE_SOUNDFILE
+	m_impls.push_back(new CaptureThreadImplSoundFile(this));
+#endif
 #ifdef CAPTURE_JACK
 	m_impls.push_back(new CaptureThreadImplJACK(this));
 #endif
@@ -788,3 +790,43 @@ void CaptureThreadImplJACK::capture_finished()
 
 #endif
 
+// ------------------------------ WAVE implementation ----------------------------
+
+#ifdef CAPTURE_SOUNDFILE
+
+CaptureThreadImplSoundFile::CaptureThreadImplSoundFile(CaptureThread* capture_thread)
+: CaptureThreadImpl(capture_thread, "SOUNDFILE", "libsndfile")
+{
+	//
+}
+
+bool CaptureThreadImplSoundFile::is_available()
+{
+	m_status = "available";
+
+	cerr << "CaptureThread: INFO: SoundFile seems available" << endl;
+
+	return true;
+}
+
+void CaptureThreadImplSoundFile::setSamplingRate(int value)
+{
+
+}
+
+void CaptureThreadImplSoundFile::capture_init()
+{
+
+}
+
+void CaptureThreadImplSoundFile::capture_loop()
+{
+
+}
+
+void CaptureThreadImplSoundFile::capture_finished()
+{
+	
+}
+
+#endif

@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -fPIC -DFANR_OUTPUT_MIDI -DCAPTURE_JACK -DCAPTURE_ALSA
+CFLAGS=-g -fPIC -DFANR_OUTPUT_MIDI -DCAPTURE_JACK -DCAPTURE_ALSA -DCAPTURE_SOUNDFILE
 LDFLAGS=-lQt5Gui -lQt5Widgets -lQt5Core -ljack -lasound -lpthread
 INCLUDE=-Ilibs -I/usr/include/qt5
 #SRCS=main.cpp ANR.cpp CaptureThread.cpp #CaptureThread_moc.cpp

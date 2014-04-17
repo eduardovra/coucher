@@ -17,7 +17,7 @@ int main (int argc, char *argv[])
 	anr().init();
 
 //	anr().m_capture_thread.autoDetectTransport();
-	anr().m_capture_thread.selectTransport("JACK");
+	anr().m_capture_thread.selectTransport("SOUNDFILE");
 
 	anr().start();
 

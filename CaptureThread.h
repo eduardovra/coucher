@@ -116,6 +116,30 @@ class CaptureThreadImplJACK : public CaptureThreadImpl
 };
 #endif
 
+// ---------------------- the SoundFile implementation ---------------------
+
+#ifdef CAPTURE_SOUNDFILE
+//#include <alsa/asoundlib.h>
+class CaptureThreadImplSoundFile : public CaptureThreadImpl
+{
+//	snd_pcm_t* m_alsa_capture_handle;
+//	snd_pcm_hw_params_t* m_alsa_hw_params;
+//	signed short* m_alsa_buffer;
+//	snd_pcm_format_t m_format;
+
+  public:
+	CaptureThreadImplSoundFile(CaptureThread* capture_thread);
+	
+	virtual void setSamplingRate(int rate);
+
+	virtual void capture_init();
+	virtual void capture_loop();
+	virtual void capture_finished();
+
+	virtual bool is_available();
+};
+#endif
+
 // --------------------- the real accessible thread -------------------------
 
 class CaptureThread : public QThread
