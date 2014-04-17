@@ -1,6 +1,3 @@
-CC=g++
-AR=ar
-RANLIB=ranlib
 CFLAGS=-g -fPIC -I..
 SRCS=$(wildcard *.cpp)
 OBJS=$(SRCS:.cpp=.o)
@@ -12,7 +9,7 @@ $(TARGET): $(OBJS)
 	$(RANLIB) $(TARGET)
 
 %.o: %.cpp Makefile
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
 	rm -f $(OBJS) $(TARGET)

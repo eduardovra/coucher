@@ -25,7 +25,7 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-#include <QtCore/qdatetime.h>
+#include <QDateTime>
 #include <Music/Music.h>
 using namespace Music;
 #include <CppAddons/Observer.h>

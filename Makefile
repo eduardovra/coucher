@@ -1,7 +1,12 @@
-CC=g++
+export CC=g++
+export AR=ar
+export RANLIB=ranlib
 CFLAGS=-g -fPIC -DFANR_OUTPUT_MIDI -DCAPTURE_JACK -DCAPTURE_ALSA -DCAPTURE_SOUNDFILE
-LDFLAGS=-lQt5Gui -lQt5Widgets -lQt5Core -ljack -lasound -lpthread
-INCLUDE=-Ilibs -I/usr/include/qt5
+LDFLAGS=-lQtGui -lQtCore -ljack -lasound -lpthread
+export INCLUDE=-Ilibs
+INCLUDE+=-I$(shell qmake -query QT_INSTALL_HEADERS)
+INCLUDE+=-I$(shell qmake -query QT_INSTALL_HEADERS)/QtGui
+INCLUDE+=-I$(shell qmake -query QT_INSTALL_HEADERS)/QtCore
 #SRCS=main.cpp ANR.cpp CaptureThread.cpp #CaptureThread_moc.cpp
 #SRCS=$(filter-out *_moc.cpp, $(wildcard *.cpp))
 SRCS=$(wildcard *.cpp)
@@ -13,10 +18,10 @@ OBJS=$(SRCS:.cpp=.o)
 DEPS=$(SRCS:.cpp=.dep)
 TARGET=coucher
 
-$(info $(SRCS))
-$(info $(OBJS))
-$(info $(SRCS_MOC))
-$(info $(OBJS_MOC))
+#$(info $(SRCS))
+#$(info $(OBJS))
+#$(info $(SRCS_MOC))
+#$(info $(OBJS_MOC))
 
 all: $(TARGET)
 	$(info all)
@@ -26,7 +31,6 @@ $(TARGET): $(OBJS) $(LIBS) $(OBJS_MOC) ANR_moc.o
 	$(CC) -o $@ $(OBJS) $(OBJS_MOC) $(LIBS) $(LDFLAGS)
 
 %.o: %.cpp Makefile
-	$(info o)
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 %_moc.o: %_moc.cpp Makefile
@@ -43,7 +47,7 @@ $(TARGET): $(OBJS) $(LIBS) $(OBJS_MOC) ANR_moc.o
 
 %_moc.cpp: %.h Makefile
 	$(info moc)
-	/usr/lib64/qt5/bin/moc $< > $@
+	moc $< > $@
 
 $(LIBS): libs Makefile
 	$(info libs)

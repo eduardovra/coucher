@@ -25,7 +25,7 @@
 
 #include <deque>
 #include <map>
-#include <QtCore/qdatetime.h>
+#include <QDateTime>
 #include <CppAddons/Singleton.h>
 #ifdef FANR_OUTPUT_MIDI
 #include <Music/omidistream.h>

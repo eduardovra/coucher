@@ -1,9 +1,11 @@
 #ifndef _CustomMainForm_h_
 #define _CustomMainForm_h_
 
-#include <QtCore/qtimer.h>
-#include <QtWidgets/qmainwindow.h>
-#include <QtWidgets/qapplication.h>
+#include <QWidget>
+#include <QObject>
+#include <QMainWindow>
+#include <QTimer>
+#include <QApplication>
 
 class CustomMainForm : public QMainWindow
 {
