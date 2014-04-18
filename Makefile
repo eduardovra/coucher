@@ -7,6 +7,7 @@ export INCLUDE=-Ilibs
 INCLUDE+=-I$(shell qmake -query QT_INSTALL_HEADERS)
 INCLUDE+=-I$(shell qmake -query QT_INSTALL_HEADERS)/QtGui
 INCLUDE+=-I$(shell qmake -query QT_INSTALL_HEADERS)/QtCore
+INCLUDE+=-I$(shell qmake -query QT_INSTALL_HEADERS)/QtWidgets
 #SRCS=main.cpp ANR.cpp CaptureThread.cpp #CaptureThread_moc.cpp
 #SRCS=$(filter-out *_moc.cpp, $(wildcard *.cpp))
 SRCS=$(wildcard *.cpp)
