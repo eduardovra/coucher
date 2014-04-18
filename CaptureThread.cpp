@@ -811,22 +811,43 @@ bool CaptureThreadImplSoundFile::is_available()
 
 void CaptureThreadImplSoundFile::setSamplingRate(int value)
 {
-
+	m_sampling_rate = value;
 }
 
 void CaptureThreadImplSoundFile::capture_init()
 {
+	SF_INFO sfinfo;
+	string filename("notes/note.wav");
 
+	m_file = sf_open(filename.c_str(), SFM_READ, &sfinfo);
+
+	if (!m_file) {
+		cerr << "Error opening " << filename << endl;
+	}
 }
 
 void CaptureThreadImplSoundFile::capture_loop()
 {
+	double item;
 
+	//while(m_capture_thread->m_loop)
+	while(1)
+	{
+		m_capture_thread->msleep(33);
+		m_capture_thread->m_lock.lock();
+
+		m_capture_thread->m_packet_size = sf_read_double(m_file, &item, 1);
+		m_capture_thread->m_values.push_front(item);
+
+		m_capture_thread->m_lock.unlock();
+	}
 }
 
 void CaptureThreadImplSoundFile::capture_finished()
 {
-	
+	if (m_file) {
+		sf_close(m_file);
+	}
 }
 
 #endif
