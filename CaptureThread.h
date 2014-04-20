@@ -123,6 +123,7 @@ class CaptureThreadImplJACK : public CaptureThreadImpl
 class CaptureThreadImplSoundFile : public CaptureThreadImpl
 {
 	SNDFILE * m_file;
+	SF_INFO m_sfinfo;
 
   public:
 	CaptureThreadImplSoundFile(CaptureThread* capture_thread);
@@ -148,6 +149,9 @@ class CaptureThread : public QThread
 #endif
 #ifdef CAPTURE_JACK
 	friend class CaptureThreadImplJACK;
+#endif
+#ifdef CAPTURE_SOUNDFILE
+	friend class CaptureThreadImplSoundFile;
 #endif
 
 	list<CaptureThreadImpl*> m_impls;

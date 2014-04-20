@@ -811,35 +811,61 @@ bool CaptureThreadImplSoundFile::is_available()
 
 void CaptureThreadImplSoundFile::setSamplingRate(int value)
 {
-	m_sampling_rate = value;
+	//m_sampling_rate = value;
 }
 
 void CaptureThreadImplSoundFile::capture_init()
 {
-	SF_INFO sfinfo;
 	string filename("notes/note.wav");
 
-	m_file = sf_open(filename.c_str(), SFM_READ, &sfinfo);
+	memset(&m_sfinfo, 0, sizeof(m_sfinfo));
+
+	m_file = sf_open(filename.c_str(), SFM_READ, &m_sfinfo);
 
 	if (!m_file) {
 		cerr << "Error opening " << filename << endl;
+	}
+	else {
+		cerr << "frames " << m_sfinfo.frames << endl;
+		cerr << "samplerate " << m_sfinfo.samplerate << endl;
+		cerr << "channels " << m_sfinfo.channels << endl;
+		cerr << "format " << m_sfinfo.format << endl;
+		cerr << "sections " << m_sfinfo.sections << endl;
+		cerr << "seekable " << m_sfinfo.seekable << endl;
+
+		m_sampling_rate = m_sfinfo.samplerate;
+
+		cerr << "Audio file length: " << (double) m_sfinfo.frames / (double) m_sfinfo.samplerate << endl;
 	}
 }
 
 void CaptureThreadImplSoundFile::capture_loop()
 {
-	double item;
+	const int buf_size = 128;
+	short sample[buf_size];
 
-	//while(m_capture_thread->m_loop)
-	while(1)
+	while (m_capture_thread->m_loop && m_file)
 	{
-		m_capture_thread->msleep(33);
+		unsigned long sleep = buf_size * 1000000 / m_sampling_rate;
+
+		//cerr << "sampling_rate " << m_sampling_rate << " sleep " << sleep << endl;
+
+		m_capture_thread->usleep(sleep);
 		m_capture_thread->m_lock.lock();
 
-		m_capture_thread->m_packet_size = sf_read_double(m_file, &item, 1);
-		m_capture_thread->m_values.push_front(item);
+		int frames = sf_read_short(m_file, &sample[0], buf_size);
+		//sample /= 32768.0;
+		//cerr << "sample " << sample << endl;
+		for (int i = 0; i < buf_size; i++) {
+			m_capture_thread->m_values.push_front(sample[i]);
+		}
 
 		m_capture_thread->m_lock.unlock();
+
+		//m_capture_thread->m_packet_size = frames;
+
+		if ( frames != buf_size )
+			exit(0);
 	}
 }
 

@@ -136,7 +136,7 @@ void ANR::recognize()
 	if(getCurrentAlgorithm()->hasNoteRecognized())
 		cerr << m_algo_current->getFondamentalWaveLength() << " " << f2h(GetSamplingRate()/m_algo_current->getFondamentalWaveLength()) << endl;
 
-	cerr << "hasNoteRecognized " << getCurrentAlgorithm()->hasNoteRecognized() << " (" << getCurrentAlgorithm()->getFondamentalNote() << ")" << endl;
+	//cerr << "hasNoteRecognized " << getCurrentAlgorithm()->hasNoteRecognized() << " (" << getCurrentAlgorithm()->getFondamentalNote() << ")" << endl;
 
 	if(getCurrentAlgorithm()->hasNoteRecognized())
 		playing[int(getCurrentAlgorithm()->getFondamentalNote()-GetSemitoneMin())] = true;

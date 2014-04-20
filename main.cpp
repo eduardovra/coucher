@@ -11,13 +11,13 @@ int main (int argc, char *argv[])
 	QApplication app(argc, argv);
 	CustomMainForm win;
 
-	Music::SetSamplingRate(48000);
+	Music::SetSamplingRate(44100);
 
 	new ANR();
 	anr().init();
 
-//	anr().m_capture_thread.autoDetectTransport();
-	anr().m_capture_thread.selectTransport("SOUNDFILE");
+	anr().m_capture_thread.autoDetectTransport();
+	//anr().m_capture_thread.selectTransport("SOUNDFILE");
 
 	anr().start();
 

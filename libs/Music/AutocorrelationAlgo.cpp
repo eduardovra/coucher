@@ -67,6 +67,7 @@ namespace Music
 	{
 		if(buff.size()<2*m_max_length)
 		{
+			cerr << "apply size " << buff.size() << " m_max_length " << m_max_length << endl;
 			m_wave_length = 0;
 			return;
 		}
